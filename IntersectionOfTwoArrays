@@ -1,27 +1,30 @@
-//Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+import java.util.*;
 
-
-
-class Solution {
+class IntersectionOfTwoArrays {
     public int[] intersection(int[] nums1, int[] nums2) {
+        // Step 1: Create a set for nums1 to store unique elements (O(n) time)
+        Set<Integer> set1 = new HashSet<>();
+        for (int num : nums1) {
+            set1.add(num);
+        }
         
-        Set<Integer> set= new HashSet<>();
-        ArrayList<Integer> result=new ArrayList<>();
-        for(int num:nums1){ set.add(num);}
-        for(int num:nums2){ 
-            if(set.contains(num))
-            {
-                result.add(num);
-                set.remove(num);
+        // Step 2: Create another set for the result to automatically handle uniqueness
+        Set<Integer> resultSet = new HashSet<>();
+        for (int num : nums2) {
+            if (set1.contains(num)) {  // Check if num exists in nums1's set
+                resultSet.add(num);    // Add to result set (duplicates ignored automatically)
             }
         }
-int[] intersection=new int[result.size()];
-for(int i=0;i<result.size();i++)
-{
-    intersection[i]=result.get(i);
-}
-return intersection;
-    
+        
+        // Step 3: Convert the result set to a primitive int[] array using streams
+        return resultSet.stream().mapToInt(Integer::intValue).toArray();
+    }
 
+    public static void main(String[] args) {
+        IntersectionOfTwoArrays solution = new IntersectionOfTwoArrays();
+        int[] nums1 = {1, 2, 2, 1};
+        int[] nums2 = {2, 2};
+        int[] result = solution.intersection(nums1, nums2);
+        System.out.println(Arrays.toString(result));  // Expected: [2]
     }
 }
